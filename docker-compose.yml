@@ -1,17 +1,10 @@
-version: '1.0'
+version: '3.4'
 
 services:
-    libraryservice:
-        image: libraryservice
-        build:
-            context: .
-            dockerfile: ./Dockerfile
-        ports:
-            - 5001:5001
-        deploy:
-            limits:
-                cpus: '1'
-                memory: 500M
-            reservations:
-                cpus: '0.25'
-                memory: 100M
+  libraryservice:
+    image: libraryservice
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
