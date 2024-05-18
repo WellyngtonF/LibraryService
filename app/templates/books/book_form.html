@@ -1,0 +1,143 @@
+<div class="container my-3">
+    <form hx-post="{{ form_action }}" hx-headers='{"Content-Type": "application/json"}' id="book-form">
+        <div class="row">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ book.title }}" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="author" class="form-label">Author</label>
+                    <input type="text" class="form-control" id="author" name="author" value="{{ book.author }}" required>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="publisher" class="form-label">Publisher</label>
+                    <input type="text" class="form-control" id="publisher" name="publisher" value="{{ book.publisher }}" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label for="genre" class="form-label">Genre</label>
+                    <select multiple class="form-select" id="genre" name="genre">
+                        {% for genre in genres %}
+                            <option value="{{ genre.name }}" {% if genre.name in book.genre %}selected{% endif %}>
+                                {{ genre.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="data_published" class="form-label">Date Published</label>
+                    <input type="date" class="form-control" id="data_published" name="data_published" value="{{ book.data_published | default('') }}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="data_acquired" class="form-label">Date Acquired</label>
+                    <input type="date" class="form-control" id="data_acquired" name="data_acquired" value="{{ book.data_acquired | default('') }}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="pages" class="form-label">Pages</label>
+                    <input type="number" class="form-control" id="pages" name="pages" value="{{ book.pages | default('') }}">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label for="priority" class="form-label">Priority</label>
+                    <input type="number" class="form-control" id="priority" name="priority" value="{{ book.priority | default('') }}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="is_read" class="form-label">Is Read ?</label>
+                    <input type="checkbox" class="form-check-input" id="is_read" name="is_read" {% if book.is_read %}checked{% endif %}>
+                </div>
+                <div class="mb-3">
+                    <label for="is_wishlist" class="form-label">Is Wishlist?</label>
+                    <input type="checkbox" class="form-check-input" id="is_wishlist" name="is_wishlist" {% if book.is_wishlist %}checked{% endif %}>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-start">
+                <a href="#" hx-get="http://localhost:8000/books" hx-target="#content" class="btn btn-secondary">Back to List</a>
+            </div>
+            <div class="col-md-6 text-end">
+                <button type="submit" class="btn btn-primary">{{ submit_button_text }}</button>
+                {% if is_update %}
+                    <a href="{{ delete_url }}" class="btn btn-danger">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+
+    <!-- JavaScript code for handling the form submission -->
+    <script>
+        // Function to serialize form data to a JSON object
+        function serializeFormToJson(form) {
+            const formData = new FormData(form);
+            const json = {};
+            formData.forEach((value, key) => {
+                if (key === 'genre') {
+                    // Convert genres to an array
+                    const selectedGenres = [];
+                    formData.getAll(key).forEach(genre => {
+                        selectedGenres.push(genre);
+                    });
+                    json[key] = selectedGenres;
+                } else {
+                    json[key] = value;
+                }
+            });
+            return json;
+        }
+    
+        // Function to handle form submission
+        function submitForm(event) {
+            event.preventDefault();
+    
+            // Serialize the form data to JSON
+            const jsonFormData = serializeFormToJson(event.target);
+    
+            // Send a POST request with JSON data using fetch
+            fetch(event.target.getAttribute('hx-post'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonFormData),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Successful response
+                    // You can perform actions like showing a success message or redirecting
+                } else {
+                    // Error response
+                    // Handle errors here
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle network or other errors here
+            });
+        }
+    
+        // Add a submit event listener to the form
+        document.getElementById('book-form').addEventListener('submit', submitForm);
+    </script>
+
+</div>

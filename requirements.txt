@@ -4,3 +4,4 @@ gunicorn
 python-multipart
 sqlalchemy
 psycopg2-binary
+Jinja2

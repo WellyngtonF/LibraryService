@@ -2,7 +2,7 @@ from sqlalchemy import text
 
 from app.db.connection import get_connection
 from app.models.wishlist import Wishlist, WishlistPostForm
-from app.models.book import Book
+from app.models.book import BookDesc
 
 import app.services.book_services as bs
 

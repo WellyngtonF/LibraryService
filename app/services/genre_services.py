@@ -1,13 +1,15 @@
 from app.db.connection import get_connection
 from sqlalchemy import text
 
-from app.models.genre import GenrePostForm
+from app.models.genre import GenrePostForm, Genre
 
-def get_genres():
+def get_genres() -> list[Genre]:
     conn = get_connection()
     query = "SELECT * FROM genres"
     result = conn.execute(text(query))
-    genres = [dict(row) for row in result]
+    genres = []
+    for genre in result.fetchall():
+        genres.append(Genre(id=genre[0], name=genre[1]))
     conn.close()
     return genres
 
@@ -34,14 +36,31 @@ def get_genre_id(genre: str):
     conn.close()
     return genre_id
 
-def insert_genres(genres: [str], book_id: int):
+def insert_genres(genres: list[int], book_id: int):
     conn = get_connection()
-    for genre in genres:
-        genre_id = get_genre_id(genre)
+    for genre_id in genres:
         params = {"book_id": book_id, "genre_id": genre_id}
         query = "INSERT INTO book_genres (book_id, genre_id) VALUES (:book_id, :genre_id)"
         conn.execute(text(query), params)
     conn.close()
+
+def get_genres_from_book(book_id: int):
+    conn = get_connection()
+    query = "SELECT g.name FROM genres g JOIN book_genres bg ON g.id = bg.genre_id WHERE bg.book_id=:book_id"
+    params = {"book_id": book_id}
+    result = conn.execute(text(query), params)
+    genres = [row[0] for row in result]
+    conn.close()
+    return genres
+
+def get_genres_id_from_book(book_id: int) -> list[int]:
+    conn = get_connection()
+    query = "SELECT genre_id FROM book_genres WHERE book_id=:book_id"
+    params = {"book_id": book_id}
+    result = conn.execute(text(query), params)
+    genres = [row[0] for row in result]
+    conn.close()
+    return genres
 
 
 __all__ = ["get_genres", "get_genre_id", "insert_genres", "create_genre"]

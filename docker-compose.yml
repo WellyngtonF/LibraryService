@@ -1,10 +1,18 @@
-version: '3.4'
+version: '3'
 
 services:
   libraryservice:
-    image: libraryservice
+    image: library-service
+    container_name: library-service
     build:
       context: .
       dockerfile: ./Dockerfile
+    networks:
+      - postgres_services
     ports:
       - 8000:8000
+
+networks:
+  postgres_services:
+    external: true
+    name: postgres_services
