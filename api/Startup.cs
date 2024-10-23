@@ -6,11 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
-using LibraryService.Data;
+using Api.Data;
 using Api.Interfaces;
 using Api.Services;
 
-namespace LibraryService.Api
+namespace Api
 {
     public class Startup
     {
@@ -21,7 +21,8 @@ namespace LibraryService.Api
             Configuration = configuration;
             
             // Set the connection string from the environment variable
-            Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DATABASE_URL");
+            if(Environment.GetEnvironmentVariable("DATABASE_URL") != null)
+                Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DATABASE_URL");
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -45,8 +46,7 @@ namespace LibraryService.Api
 
             // Add BookService as a scoped service
             services.AddScoped<IBookService, BookService>();
-
-            // Add other services here
+            services.AddScoped<IAuthorService, AuthorService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

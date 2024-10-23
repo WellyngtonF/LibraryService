@@ -1,5 +1,6 @@
+using Api.DTOs;
+using Api.Entities;
 using Api.Interfaces;
-using LibraryService.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -28,9 +29,10 @@ public class BookController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<Book> CreateBook(Book book)
+    public async Task<ActionResult<Book>> CreateBook(CreateBookDTO createBookDto)
     {
-        return await _bookService.CreateBook(book);
+        var book = await _bookService.CreateBook(createBookDto);
+        return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, book);
     }
 
     [HttpPut]

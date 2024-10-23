@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241022025714_AddBookEntity")]
-    partial class AddBookEntity
+    [Migration("20241023203044_PagesColumn")]
+    partial class PagesColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("LibraryService.Entities.Book", b =>
+            modelBuilder.Entity("Api.Entities.Author", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,13 +33,35 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Author")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Author");
+                });
+
+            modelBuilder.Entity("Api.Entities.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("IDAuthor")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PagesRead")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PagesTotal")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("PublicationDate")
                         .HasColumnType("timestamp with time zone");
@@ -50,7 +72,20 @@ namespace api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IDAuthor");
+
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("Api.Entities.Book", b =>
+                {
+                    b.HasOne("Api.Entities.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("IDAuthor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
                 });
 #pragma warning restore 612, 618
         }

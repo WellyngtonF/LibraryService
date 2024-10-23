@@ -1,12 +1,13 @@
+using Api.Entities;
 using System.Reflection;
-using LibraryService.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryService.Data
+namespace Api.Data
 {
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Book> Books { get; set; }
+        public DbSet<Author> Author { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

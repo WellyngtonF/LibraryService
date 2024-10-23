@@ -1,6 +1,7 @@
+using Api.Data;
+using Api.DTOs;
+using Api.Entities;
 using Api.Interfaces;
-using LibraryService.Data;
-using LibraryService.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Services;
@@ -8,14 +9,31 @@ namespace Api.Services;
 public class BookService : IBookService
 {
     private readonly ApplicationDbContext _context;
-
-    public BookService(ApplicationDbContext context)
+    private readonly IAuthorService _authorService;
+    public BookService(ApplicationDbContext context, IAuthorService authorService)
     {
         _context = context;
+        _authorService = authorService;
     }
 
-    public async Task<Book> CreateBook(Book book)
+    public async Task<Book> CreateBook(CreateBookDTO createBookDto)
     {
+        var author = await _authorService.GetAuthorById(createBookDto.IDAuthor);
+        if (author == null)
+        {
+            throw new ArgumentException("Invalid author ID");
+        }
+
+        var book = new Book
+        {
+            Title = createBookDto.Title,
+            IDAuthor = createBookDto.IDAuthor,
+            Description = createBookDto.Description,
+            PagesRead = createBookDto.PagesRead,
+            PagesTotal = createBookDto.PagesTotal,
+            PublicationDate = createBookDto.PublicationDate
+        };
+
         await _context.Books.AddAsync(book);
         await _context.SaveChangesAsync();
         return book;
