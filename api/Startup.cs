@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using LibraryService.Data;
+using Api.Interfaces;
+using Api.Services;
 
 namespace LibraryService.Api
 {
@@ -17,6 +19,9 @@ namespace LibraryService.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
+            // Set the connection string from the environment variable
+            Configuration["ConnectionStrings:DefaultConnection"] = Environment.GetEnvironmentVariable("DATABASE_URL");
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -35,7 +40,11 @@ namespace LibraryService.Api
 
             // Configure Entity Framework Core
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
+            );
+
+            // Add BookService as a scoped service
+            services.AddScoped<IBookService, BookService>();
 
             // Add other services here
         }
