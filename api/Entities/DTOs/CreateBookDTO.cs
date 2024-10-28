@@ -1,4 +1,4 @@
-namespace Api.DTOs
+namespace Api.Entities.DTOs
 {
     public class CreateBookDTO
     {

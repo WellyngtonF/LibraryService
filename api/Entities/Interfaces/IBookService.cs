@@ -1,7 +1,7 @@
-using Api.DTOs;
-using Api.Entities;
+using Api.Entities.DTOs;
+using Api.Entities.Models;
 
-namespace Api.Interfaces;
+namespace Api.Entities.Interfaces;
 
 public interface IBookService
 {

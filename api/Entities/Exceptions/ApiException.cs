@@ -1,4 +1,4 @@
-namespace Api.Exceptions
+namespace Api.Entities.Exceptions
 {
     public class ApiException : Exception
     {

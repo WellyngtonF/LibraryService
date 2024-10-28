@@ -1,6 +1,6 @@
-using Api.Entities;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using Api.Entities.Models;
 
 namespace Api.Data
 {

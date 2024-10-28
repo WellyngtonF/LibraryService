@@ -1,5 +1,5 @@
-using Api.Entities;
-using Api.Interfaces;
+using Api.Entities.Interfaces;
+using Api.Entities.Models;
 
 namespace Api.Services;
 

@@ -1,5 +1,5 @@
-using Api.Entities;
-using Api.Interfaces;
+using Api.Entities.Models;
+using Api.Entities.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]

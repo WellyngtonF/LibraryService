@@ -1,6 +1,6 @@
-using Api.Entities;
-using Api.Exceptions;
-using Api.Interfaces;
+using Api.Entities.Models;
+using Api.Entities.Exceptions;
+using Api.Entities.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers

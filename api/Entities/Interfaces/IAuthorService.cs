@@ -1,6 +1,6 @@
-using Api.Entities;
+using Api.Entities.Models;
 
-namespace Api.Interfaces
+namespace Api.Entities.Interfaces
 {
     public interface IAuthorService
     {

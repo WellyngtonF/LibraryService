@@ -1,6 +1,6 @@
-using Api.DTOs;
-using Api.Entities;
-using Api.Interfaces;
+using Api.Entities.Interfaces;
+using Api.Entities.Models;
+using Api.Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;

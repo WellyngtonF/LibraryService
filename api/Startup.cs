@@ -2,7 +2,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using Microsoft.EntityFrameworkCore;
 using Api.Data;
-using Api.Interfaces;
+using Api.Entities.Interfaces;
 using Api.Services;
 using Api.Middleware;
 
