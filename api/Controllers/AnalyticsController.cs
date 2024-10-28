@@ -1,4 +1,3 @@
-using Api.DTOs;
 using Api.Entities;
 using Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;

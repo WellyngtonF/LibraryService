@@ -1,4 +1,5 @@
 using Api.Entities;
+using Api.Exceptions;
 using Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,21 +33,24 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAuthor(Author author)
         {
-            await _authorService.CreateAuthor(author);
-            return CreatedAtAction(nameof(GetAuthorById), new { id = author.Id }, author);
+            if (author == null)
+                throw new BadRequestException("Author cannot be null");
+            
+            var createdAuthor = await _authorService.CreateAuthor(author);
+            return CreatedAtAction(nameof(GetAuthorById), new { id = createdAuthor.Id }, createdAuthor);
         }
 
         [HttpPut]
-        public IActionResult UpdateAuthor(Author author)
+        public async Task<IActionResult> UpdateAuthor(Author author)
         {
-            _authorService.UpdateAuthor(author);
+            await _authorService.UpdateAuthor(author);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteAuthor(int id)
+        public async Task<IActionResult> DeleteAuthor(int id)
         {
-            _authorService.DeleteAuthor(id);
+            await _authorService.DeleteAuthor(id);
             return NoContent();
         }
     }

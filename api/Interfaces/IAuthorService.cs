@@ -7,7 +7,7 @@ namespace Api.Interfaces
         Task<IEnumerable<Author>> GetAllAuthors();
         Task<Author> GetAuthorById(int id);
         Task<Author> CreateAuthor(Author author);
-        void UpdateAuthor(Author author);
-        void DeleteAuthor(int id);
+        Task UpdateAuthor(Author author);
+        Task DeleteAuthor(int id);
     }
 }

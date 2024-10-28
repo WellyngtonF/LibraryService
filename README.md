@@ -15,7 +15,12 @@ Service is a API with CRUD operations for books and authors.
 
 ## Unit Tests
 
-Unit tests are made with NUnit and FluentAssertions.
+I build two projects for unit tests:
+
+- `unitTests_NUnit`: Unit tests made with NUnit.
+- `unitTests_XUnit`: Unit tests made with XUnit.
+
+The reason for this is to compare the two most popular unit test frameworks code and demonstrate my skills with both.
 
 ## Integration Tests
 

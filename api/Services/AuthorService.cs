@@ -1,5 +1,6 @@
 using Api.Data;
 using Api.Entities;
+using Api.Exceptions;
 using Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,13 +32,13 @@ namespace Api.Services
             return author;
         }
 
-        public async void UpdateAuthor(Author author)
+        public async Task UpdateAuthor(Author author)
         {
             _context.Author.Update(author);
             await _context.SaveChangesAsync();
         }
 
-        public async void DeleteAuthor(int id)
+        public async Task DeleteAuthor(int id)
         {
             var author = await _context.Author.FindAsync(id);
             _context.Author.Remove(author);
