@@ -1,8 +1,7 @@
-using NUnit.Framework;
 using Api.Controllers;
-using Api.DTOs;
-using Api.Entities;
-using Api.Interfaces;
+using Api.Entities.DTOs;
+using Api.Entities.Models;
+using Api.Entities.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -107,7 +106,7 @@ namespace unitTests_NUnit.Controllers
             // Assert
             Assert.That(result, Is.Null);
         }
-        
+
         [Test]
         public async Task CreateBook_ServiceThrowsException_PropagatesException()
         {

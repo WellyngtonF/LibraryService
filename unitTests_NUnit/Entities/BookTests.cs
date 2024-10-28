@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Api.Entities;
+using Api.Entities.Models;
 
 namespace unitTests_NUnit.Entities
 {
